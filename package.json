@@ -1,0 +1,43 @@
+{
+  "name": "angular-custom-mat-auto-complete",
+  "version": "1.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "11.2.6",
+    "@angular/cdk": "11.2.5",
+    "@angular/common": "11.2.6",
+    "@angular/compiler": "11.2.6",
+    "@angular/core": "11.2.6",
+    "@angular/forms": "11.2.6",
+    "@angular/material": "^11.0.3",
+    "@angular/material-moment-adapter": "11.0.3",
+    "@angular/platform-browser": "11.2.6",
+    "@angular/platform-browser-dynamic": "11.2.6",
+    "@angular/router": "11.2.6",
+    "angular-in-memory-web-api": "0.11.0",
+    "moment": "2.29.1",
+    "rxjs": "6.6.6",
+    "tslib": "2.0.3",
+    "zone.js": "0.11.3"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "0.1100.0",
+    "@angular/cli": "^11.0.0",
+    "@angular/compiler-cli": "^11.0.0",
+    "@angular/language-service": "^11.0.0",
+    "@angular/localize": "^11.0.0",
+    "@types/node": "^12.12.70",
+    "codelyzer": "^6.0.1",
+    "ts-node": "^8.10.1",
+    "tslint": "~6.1.2",
+    "typescript": "~4.0.2"
+  }
+}
