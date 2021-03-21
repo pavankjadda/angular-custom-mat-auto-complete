@@ -1,31 +1,35 @@
-<form [formGroup]="autoCompleteForm" class="example-form">
+<form class="example-form">
   <mat-form-field class="example-full-width">
     <mat-label>Assignee</mat-label>
-    <input
-      type="text"
-      matInput
-      formControlName="myControl"
-      [matAutocomplete]="auto"
+    <input #inputAutoComplete
+           [formControl]="myControl"
+           [matAutocomplete]="auto"
+           #trigger="matAutocompleteTrigger"
+           matInput
+           type="text"
     />
+
     <div matSuffix style="display:flex">
       <button
-        *ngIf="autoCompleteForm.get('myControl')!==undefined && autoCompleteForm.get('myControl')?.value!==null && autoCompleteForm.get('myControl')?.value!==''"
-        mat-icon-button
+        (click)="openPanel($event, trigger)"
+        *ngIf=" myControl?.value!==null && myControl?.value!==''"
         aria-label="Clear"
-        (click)="clearInput()"
+        mat-icon-button
         type="button"
       >
         <mat-icon>clear</mat-icon>
       </button>
 
-      <button mat-icon-button aria-label="Clear" type="button">
-        <mat-icon>{{arrowIcon}}</mat-icon>
+      <button aria-label="Clear" mat-icon-button type="button">
+        <mat-icon>{{arrowIconSubject.getValue()}}</mat-icon>
       </button>
     </div>
 
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (opened)="arrowIcon='arrow_drop_up'"
-      (closed)="arrowIcon='arrow_drop_down'" (optionSelected)="arrowIcon='arrow_drop_down'" >
-      <mat-option *ngFor="let option of filteredOptions2 " [value]="option">
+    <mat-autocomplete #auto="matAutocomplete" (closed)="arrowIconSubject.next('arrow_drop_down')"
+                      (opened)="arrowIconSubject.next('arrow_drop_up')"
+                      (optionSelected)="arrowIconSubject.next('arrow_drop_down')"
+                      [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredOptions | async " [value]="option">
         {{option.name}}
       </mat-option>
     </mat-autocomplete>

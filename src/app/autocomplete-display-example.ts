@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import {FormBuilder, FormControl} from '@angular/forms';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete/autocomplete-trigger';
-import { Observable, of } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 
 export interface User {
   name: string;
@@ -17,45 +17,39 @@ export interface User {
   styleUrls: ['autocomplete-display-example.css']
 })
 export class AutocompleteDisplayExample implements OnInit {
-  arrowIcon = 'arrow_drop_down';
+  @ViewChild('inputAutoComplete') inputAutoComplete: any;
+
+  arrowIconSubject = new BehaviorSubject('arrow_drop_down');
   myControl = new FormControl();
-  options: User[] = [{ name: 'Mary' }, { name: 'Shelley' }, { name: 'Igor' }];
+  options: User[] = [{name: 'Mary'}, {name: 'Shelley'}, {name: 'Igor'}];
   filteredOptions: Observable<User[]>;
-  autoCompleteForm= this.fb.group({
-    myControl: ['']
-  })
-  filteredOptions2: User[]=[];
 
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
   }
 
   ngOnInit() {
-     this.myControl.valueChanges
-    .pipe(tap(val => console.log('Value:' + val)),
-      startWith(''),
-      map(value => typeof value === 'string' ? value : value?.name),
-      tap(val => console.log('map1:' + val)),
-      map(name => (name ? this._filter(name) : this.options.slice()))
-    ).forEach(value => this.filteredOptions2=value);
+    this.filteredOptions=this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => typeof value === 'string' ? value : value?.name),
+        map(name => (name ? this._filter(name) : this.options.slice()))
+      );
+  }
+
+  openPanel(evt: any, trigger: MatAutocompleteTrigger): void {
+    evt.stopPropagation();
+    this.myControl?.reset();
+    trigger.openPanel();
+    this.inputAutoComplete?.nativeElement.focus();
   }
 
   displayFn(user: User): string {
     return user && user.name ? user.name : '';
   }
 
+
   private _filter(name: string): User[] {
-    const filterValue = name.toLowerCase();
-
-    return this.options.filter(
-      option => option.name.toLowerCase().indexOf(filterValue) === 0
-    );
-  }
-
-  clearInput() {
-    this.arrowIcon = 'arrow_drop_down';
-    this.autoCompleteForm.controls['myControl'].patchValue(null, {emitEvent: true})
-    this.filteredOptions2=this.options;
-    //this.filteredOptions.forEach(value => console.log(value));
+    return this.options.filter(option => option.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
   }
 }
