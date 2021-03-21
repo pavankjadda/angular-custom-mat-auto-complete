@@ -11,7 +11,7 @@
 
     <div matSuffix style="display:flex">
       <button
-        (click)="openPanel($event, trigger)"
+        (click)="clearInput($event, trigger)"
         *ngIf=" myControl?.value!==null && myControl?.value!==''"
         aria-label="Clear"
         mat-icon-button
@@ -20,7 +20,7 @@
         <mat-icon>clear</mat-icon>
       </button>
 
-      <button aria-label="Clear" mat-icon-button type="button">
+      <button (click)="openOrClosePanel($event, trigger)" aria-label="Clear" mat-icon-button type="button">
         <mat-icon>{{arrowIconSubject.getValue()}}</mat-icon>
       </button>
     </div>

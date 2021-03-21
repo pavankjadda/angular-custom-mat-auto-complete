@@ -37,11 +37,20 @@ export class AutocompleteDisplayExample implements OnInit {
       );
   }
 
-  openPanel(evt: any, trigger: MatAutocompleteTrigger): void {
+  clearInput(evt: any, trigger: MatAutocompleteTrigger): void {
     evt.stopPropagation();
     this.myControl?.reset();
     trigger.openPanel();
     this.inputAutoComplete?.nativeElement.focus();
+  }
+
+
+  openOrClosePanel(evt: any, trigger: MatAutocompleteTrigger): void {
+    evt.stopPropagation();
+    if(trigger.panelOpen)
+      trigger.closePanel();
+    else
+      trigger.openPanel();
   }
 
   displayFn(user: User): string {
